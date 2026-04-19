@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react"
-import Select from "react-select"
+import { useState, useEffect } from "react";
+import Select from "react-select";
 
 function createOptions(books) {
   return books
@@ -8,28 +8,30 @@ function createOptions(books) {
         genreList = [
           ...genreList,
           ...currentBook.genres.filter((genre) => !genreList.includes(genre)),
-        ]
-        return genreList
+        ];
+        return genreList;
       },
-      ["all"]
+      ["all"],
     )
-    .map((genre) => ({ value: genre, label: genre }))
+    .map((genre) => ({ value: genre, label: genre }));
 }
 
 const BookFilterForm = ({ books, setFilter }) => {
-  const [selectedOption, setSelectedOption] = useState(null)
-  const [options, setOptions] = useState(null)
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [options, setOptions] = useState(null);
 
   useEffect(() => {
-    const options = createOptions(books)
-    setOptions(options)
-  }, [books])
+    const options = createOptions(books);
+    setOptions(options);
+  }, [books]);
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    setFilter(selectedOption.value === "all" ? null : selectedOption.value)
-    setSelectedOption(null)
-  }
+    e.preventDefault();
+
+    if (!selectedOption) return;
+    setFilter(selectedOption.value === "all" ? null : selectedOption.value);
+    setSelectedOption(null);
+  };
   return (
     <form onSubmit={handleSubmit}>
       <Select
@@ -39,7 +41,7 @@ const BookFilterForm = ({ books, setFilter }) => {
       />
       <input type="submit" value="filter" />
     </form>
-  )
-}
+  );
+};
 
-export default BookFilterForm
+export default BookFilterForm;

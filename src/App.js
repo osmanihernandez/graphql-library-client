@@ -1,54 +1,60 @@
-import { useState, useEffect } from "react"
-import { useApolloClient, useSubscription } from "@apollo/client"
+import { useState, useEffect } from "react";
+import { useApolloClient, useSubscription } from "@apollo/client";
 
-import Authors from "./components/Authors"
-import Books from "./components/Books"
-import BookForm from "./components/BookForm"
-import Login from "./components/Login"
-import Recommendations from "./components/Recommendations"
+import Authors from "./components/Authors";
+import Books from "./components/Books";
+import BookForm from "./components/BookForm";
+import Login from "./components/Login";
+import Recommendations from "./components/Recommendations";
 
-import { BOOK_ADDED } from "graphql/subscriptions/subscriptions.gql"
+import { BOOK_ADDED } from "graphql/subscriptions/subscriptions.gql";
 
 import {
   updateBookCache,
   updateAuthorCache,
   updateRecommendationCache,
-} from "utils/helpers/cache.helper"
+} from "utils/helpers/cache.helper";
 
-import "./App.css"
+import "./App.css";
 
 function App() {
-  const [currentView, setCurrentView] = useState("books")
-  const [token, setToken] = useState(null)
-  const client = useApolloClient()
+  const [currentView, setCurrentView] = useState("books");
+  const [token, setToken] = useState(null);
+  const client = useApolloClient();
 
   useSubscription(BOOK_ADDED, {
     onSubscriptionData: ({ subscriptionData }) => {
-      const {
-        data: { bookAdded },
-      } = subscriptionData
+      const bookAdded = subscriptionData.data?.bookAdded;
 
-      updateBookCache(bookAdded)
-      updateAuthorCache(bookAdded.author)
-      updateRecommendationCache(bookAdded)
+      if (!bookAdded) return;
 
-      window.alert(`${bookAdded.title} by ${bookAdded.author.name} was added`)
+      updateBookCache(bookAdded);
+
+      if (bookAdded.author) {
+        updateAuthorCache(bookAdded.author);
+      }
+
+      updateRecommendationCache(bookAdded);
+
+      window.alert(
+        `${bookAdded.title} by ${bookAdded.author?.name || "Unknown"} was added`,
+      );
     },
-  })
+  });
 
   useEffect(() => {
-    const token = localStorage.getItem("library-user-token")
+    const token = localStorage.getItem("library-user-token");
     if (token) {
-      setToken(token)
+      setToken(token);
     }
-  }, [])
+  }, []);
 
   const logout = () => {
-    setToken(null)
-    localStorage.clear()
-    client.clearStore()
-    setCurrentView("books")
-  }
+    setToken(null);
+    localStorage.clear();
+    client.clearStore();
+    setCurrentView("books");
+  };
 
   return (
     <div>
@@ -80,7 +86,7 @@ function App() {
         <Recommendations />
       ) : null}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

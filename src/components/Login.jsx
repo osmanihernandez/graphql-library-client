@@ -1,31 +1,37 @@
-import { useState, useEffect } from "react"
-import { useMutation } from "@apollo/client"
-import { LOGIN } from "graphql/mutations/mutations.gql"
+import { useState, useEffect } from "react";
+import { useMutation } from "@apollo/client";
+import { LOGIN } from "graphql/mutations/mutations.gql";
 
 const Login = ({ setToken, setCurrentView }) => {
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const [login, { data }] = useMutation(LOGIN, {
-    onError: (error) => console.log(error.graphQLErrors[0].message),
-  })
+    onError: (error) => {
+      const message =
+        error.graphQLErrors?.[0]?.message ||
+        error.networkError?.message ||
+        "Login failed";
 
+      console.log("LOGIN ERROR:", message);
+    },
+  });
 
   useEffect(() => {
     if (data) {
-      const token = data.login.value
-      setToken(token)
-      localStorage.setItem("library-user-token", token)
-      setCurrentView("books")
-      setUsername("")
-      setPassword("")
+      const token = data.login.value;
+      setToken(token);
+      localStorage.setItem("library-user-token", token);
+      setCurrentView("books");
+      setUsername("");
+      setPassword("");
     }
-  }, [data]) // eslint-disable-line
+  }, [data]); // eslint-disable-line
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    login({ variables: { credentials: { username, password } } })
-  }
+    e.preventDefault();
+    login({ variables: { credentials: { username, password } } });
+  };
   return (
     <form onSubmit={handleSubmit}>
       <div>
@@ -46,7 +52,7 @@ const Login = ({ setToken, setCurrentView }) => {
       </div>
       <input type="submit" />
     </form>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
