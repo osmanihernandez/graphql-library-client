@@ -1,17 +1,11 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
-import Select from "react-select";
 import { EDIT_AUTHOR } from "graphql/mutations/mutations.gql";
 import { updateAuthorCache } from "utils/helpers/cache.helper";
 
 const AuthorForm = ({ authors }) => {
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState("");
   const [birthyear, setBirthyear] = useState("");
-
-  const options = authors.map((author) => ({
-    value: author.name,
-    label: author.name,
-  }));
 
   const [editAuthor] = useMutation(EDIT_AUTHOR, {
     update: (_, { data }) => {
@@ -23,36 +17,55 @@ const AuthorForm = ({ authors }) => {
     e.preventDefault();
 
     if (!selectedOption || !birthyear || isNaN(birthyear)) return;
+
     editAuthor({
       variables: {
-        author: selectedOption.value,
+        author: selectedOption,
         birthyear: parseInt(birthyear),
       },
     });
+
     setBirthyear("");
-    setSelectedOption(null);
+    setSelectedOption("");
   };
 
   return (
-    <>
+    <section>
       <h2>Set birthyear</h2>
-      <form onSubmit={handleSubmit}>
-        <Select
-          defaultValue={selectedOption}
-          onChange={setSelectedOption}
-          options={options}
-        />
-        <div>
-          born
+
+      <form
+        onSubmit={handleSubmit}
+        style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}
+      >
+        <label>
+          Author
+          <select
+            value={selectedOption}
+            onChange={(e) => setSelectedOption(e.target.value)}
+          >
+            <option value="">Select author</option>
+            {authors.map((author) => (
+              <option key={author.name} value={author.name}>
+                {author.name}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label>
+          Born
           <input
             type="text"
             value={birthyear}
             onChange={(e) => setBirthyear(e.target.value)}
           />
-        </div>
-        <input type="submit" value="update author" />
+        </label>
+
+        <button type="submit" className="secondary">
+          Update author
+        </button>
       </form>
-    </>
+    </section>
   );
 };
 

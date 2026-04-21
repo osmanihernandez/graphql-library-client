@@ -1,49 +1,86 @@
-import { useQuery, useLazyQuery } from "@apollo/client"
-import { ALL_BOOKS, LOGGEDIN_USER } from "graphql/queries/queries.gql"
-import { useEffect } from "react"
+import { useQuery, useLazyQuery } from "@apollo/client";
+import { ALL_BOOKS, LOGGEDIN_USER } from "graphql/queries/queries.gql";
+import { useEffect, useState } from "react";
+import Pagination from "./Pagination";
 
-const Recommendations = ({ user }) => {
-  const { data: dataFromUser } = useQuery(LOGGEDIN_USER)
+const Recommendations = () => {
+  const { data: userData, loading: userLoading } = useQuery(LOGGEDIN_USER);
 
-  const [getFavoriteBooks, { error, loading, data }] = useLazyQuery(ALL_BOOKS)
+  const [getBooks, { data, loading, error }] = useLazyQuery(ALL_BOOKS);
+
+  const [page, setPage] = useState(0);
+  const pageSize = 5;
 
   useEffect(() => {
-    if (dataFromUser?.loggedinUser) {
-      getFavoriteBooks({
-        variables: { genres: [dataFromUser.loggedinUser.favoriteGenre] },
-      })
-    }
-  }, [dataFromUser, getFavoriteBooks])
+    const genre = userData?.loggedinUser?.favoriteGenre;
 
-  if (loading) return <div>loading</div>
-  if (error) return <div>{error.message}</div>
+    if (genre) {
+      getBooks({
+        variables: { genres: [genre] },
+      });
+    }
+  }, [userData, getBooks]);
+
+  useEffect(() => {
+    setPage(0);
+  }, [data]);
+
+  if (userLoading || loading) return <p>Loading...</p>;
+  if (error) return <p>{error.message}</p>;
+
+  const favoriteGenre = userData?.loggedinUser?.favoriteGenre;
+
+  const books = data?.allBooks || [];
+
+  const start = page * pageSize;
+  const end = start + pageSize;
+  const paginatedBooks = books.slice(start, end);
 
   return (
-    <div>
-      <h1>Recommendations</h1>
-      <p>
-        books in your favorite genre <strong>patterns</strong>
-      </p>
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th>author</th>
-            <th>published</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data?.allBooks.map((book) => (
-            <tr key={book.title}>
-              <td>{book.title}</td>
-              <td>{book.author.name}</td>
-              <td>{book.published}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  )
-}
+    <section>
+      <h2>Recommendations</h2>
 
-export default Recommendations
+      <p>
+        books in your favorite genre{" "}
+        <span style={{ textDecoration: "underline" }}>
+          <strong>{favoriteGenre}</strong>
+        </span>
+      </p>
+
+      {books.length === 0 ? (
+        <p>No recommendations found</p>
+      ) : (
+        <>
+          <table>
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Published</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {paginatedBooks.map((book) => (
+                <tr key={book.title}>
+                  <td>{book.title}</td>
+                  <td>{book.author.name}</td>
+                  <td>{book.published}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <Pagination
+            page={page}
+            setPage={setPage}
+            total={books.length}
+            pageSize={pageSize}
+          />
+        </>
+      )}
+    </section>
+  );
+};
+
+export default Recommendations;

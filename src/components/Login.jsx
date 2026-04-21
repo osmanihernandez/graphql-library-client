@@ -33,25 +33,27 @@ const Login = ({ setToken, setCurrentView }) => {
     login({ variables: { credentials: { username, password } } });
   };
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        username
-        <input
-          type="text"
-          value={username}
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password
-        <input
-          type="password"
-          value={password}
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <input type="submit" />
-    </form>
+    <article className="login-card">
+      <form className="login-form" onSubmit={handleSubmit}>
+        <div>
+          username
+          <input
+            type="text"
+            value={username}
+            onChange={({ target }) => setUsername(target.value)}
+          />
+        </div>
+        <div>
+          password
+          <input
+            type="password"
+            value={password}
+            onChange={({ target }) => setPassword(target.value)}
+          />
+        </div>
+        <button type="submit">Login</button>
+      </form>
+    </article>
   );
 };
 
