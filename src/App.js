@@ -183,6 +183,14 @@ function App() {
           <Recommendations />
         ) : null}
       </section>
+      <footer className="app-footer">
+        <small>
+          © {new Date().getFullYear()} Library App · Built by{" "}
+          <a target="_blank" href="https://osmanihernandez.com">
+            Osmani Hernandez
+          </a>
+        </small>
+      </footer>
     </main>
   );
 }
