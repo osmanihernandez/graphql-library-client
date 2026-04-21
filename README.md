@@ -1,70 +1,96 @@
-# Getting Started with Create React App
+# 📚 Library App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Description
 
-## Available Scripts
+A full-stack web application where users can browse, filter, and manage books. The app allows users to view authors and books, add new entries, and receive personalized recommendations based on their favorite genre.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## Main Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- [x] **Web app includes a books view displaying all available books**
+  - Displays:
+    - title
+    - author
+    - published year
+  - Supports filtering by genre
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- [x] **Web app includes an authors view**
+  - Displays:
+    - author name
+    - birth year
+    - number of books written
+  - Users can update an author's birth year
 
-### `npm test`
+- [x] **Users can add new books**
+  - Form includes:
+    - title
+    - author
+    - published year
+    - genres
+  - Supports adding multiple genres
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- [x] **User authentication**
+  - Users can log in
+  - Certain features are restricted to authenticated users:
+    - adding books
+    - viewing recommendations
 
-### `npm run build`
+- [x] **Personalized recommendations**
+  - Displays books based on the user’s favorite genre
+  - Dynamically fetched using GraphQL queries
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- [x] **Real-time updates**
+  - Uses GraphQL subscriptions
+  - Newly added books appear instantly across the app
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- [x] **Pagination**
+  - Implemented for:
+    - books
+    - authors
+    - recommendations
+  - Improves usability and performance
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- [x] **Responsive UI**
+  - Mobile-friendly navigation with a drawer menu
+  - Clean and minimal interface
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Backend
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+👉 Backend repository: **https://github.com/osmanihernandez/graphql-library-server.git**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+---
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Video Walkthrough
 
-## Learn More
+Library App - Watch Video
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<div>
+    <a href="https://www.loom.com/share/c670d9e08d9e494dbc7c892b6fdddf44">
+      <p>Library App - Watch Video</p>
+    </a>
+    <a href="https://www.loom.com/share/c670d9e08d9e494dbc7c892b6fdddf44">
+      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/c670d9e08d9e494dbc7c892b6fdddf44-d2c23777175ee15a-full-play.gif#t=0.1">
+    </a>
+  </div>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+## Notes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+**Challenging parts**:
 
-### Analyzing the Bundle Size
+- Implementing real-time updates
+- Managing UI state across filtering and pagination
+- Designing a responsive navigation system
+- Handling form validation and user input cleanly
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+## Tech Stack
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- React (Create React App)
+- Apollo Client (GraphQL)
+- CSS (custom styling)
