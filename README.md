@@ -65,8 +65,6 @@ A full-stack web application where users can browse, filter, and manage books. T
 
 ## Video Walkthrough
 
-Library App - Watch Video
-
 <div>
     <a href="https://www.loom.com/share/c670d9e08d9e494dbc7c892b6fdddf44">
       <p>Library App - Watch Video</p>
