@@ -53,6 +53,10 @@ const Login = ({ setToken, setCurrentView }) => {
         </div>
         <button type="submit">Login</button>
       </form>
+      <div className="login-credentials">
+        <p> username: test</p>
+        <p> password: c</p>
+      </div>
     </article>
   );
 };

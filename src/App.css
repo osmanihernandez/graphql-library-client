@@ -277,12 +277,23 @@ th {
 /* Login */
 .login-card {
   max-width: 600px;
+  margin-inline: auto;
 }
 
 .login-form input {
   text-transform: none;
 }
 
+.login-credentials {
+  font-family: "Rubik", sans-serif;
+
+  margin-top: 2rem;
+}
+
+.login-credentials p {
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+}
 /* Pagination */
 .pagination {
   display: flex;
